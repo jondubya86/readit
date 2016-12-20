@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  /*background-color: skyblue;*/
+  height: 100vh;
+  width: auto;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  align-content: space-around;
+}
+
+.navbar > li {
+  margin: 10px;
+  list-style: none;
+}
