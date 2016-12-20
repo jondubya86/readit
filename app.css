@@ -14,9 +14,30 @@ body {
   flex-direction: row;
   margin: 0;
   align-content: space-around;
+  background-color: skyblue;
 }
 
 .navbar > li {
   margin: 10px;
   list-style: none;
+}
+
+#title {
+  width: 500px;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+#body {
+  height: 500px;
+  width: 500px;
+  margin-left: 20px;
+}
+
+#reset {
+  margin-left: 20px;
+}
+
+#submit {
+  margin-left: 20px;
 }

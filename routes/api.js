@@ -31,9 +31,7 @@ router.route('/api/post/:id')
 //gets single posts
 .get((req, res) => {
   let id = req.params.id;
-  Post.findById({
-    id: id
-  })
+  Post.findById(id)
   .then((post) => {
     res.send(post)
   })
