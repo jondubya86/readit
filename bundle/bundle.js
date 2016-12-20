@@ -100,6 +100,7 @@
 	    _reactRouter.Route,
 	    { path: '/', component: App },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _allposts2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/form', component: _postform2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/post/:id', component: _singlepost2.default })
 	  )
 	), document.getElementById('root'));
@@ -26430,6 +26431,8 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _reactRouter = __webpack_require__(178);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Navbar = _react2.default.createClass({
@@ -26441,7 +26444,11 @@
 	      _react2.default.createElement(
 	        'li',
 	        null,
-	        'reddit'
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/' },
+	          'reddit'
+	        )
 	      ),
 	      _react2.default.createElement(
 	        'li',
@@ -26496,7 +26503,11 @@
 	      _react2.default.createElement(
 	        'li',
 	        null,
-	        'English'
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/form' },
+	          'Create Post'
+	        )
 	      )
 	    );
 	  }
@@ -36850,13 +36861,17 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h1',
+	          'center',
 	          null,
-	          'POSTS:'
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'POSTS'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'ul',
-	          null,
+	          { className: 'posts' },
 	          posts
 	        )
 	      );

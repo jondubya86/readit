@@ -1,10 +1,11 @@
 import React from 'react';
+import {Link} from 'react-router'
 
 const Navbar = React.createClass({
   render() {
     return (
       <ul className='navbar'>
-        <li>reddit</li>
+        <li><Link to="/">reddit</Link></li>
         <li>hot</li>
         <li>new</li>
         <li>rising</li>
@@ -15,7 +16,7 @@ const Navbar = React.createClass({
         <li>promoted</li>
         <li>Log in</li>
         <li>sign up</li>
-        <li>English</li>
+        <li><Link to="/form">Create Post</Link></li>
       </ul>
     )
   }

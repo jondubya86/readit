@@ -24,6 +24,7 @@ ReactDOM.render(
   <Router history={browserHistory}>
     <Route path='/' component={App}>
       <IndexRoute component={Allposts} />
+      <Route path='/form' component={Postform} />
       <Route path='/post/:id' component={Singlepost} />
     </Route>
 

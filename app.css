@@ -20,6 +20,7 @@ body {
 .navbar > li {
   margin: 10px;
   list-style: none;
+  a:decoration: none;
 }
 
 #title {
@@ -40,4 +41,17 @@ body {
 
 #submit {
   margin-left: 20px;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+.posts {
+  font-size: 36px;
+}
+
+.posts > * {
+  list-style: none;
+  padding: 10px;
 }

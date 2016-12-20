@@ -28,8 +28,8 @@ const Allposts = React.createClass({
       )
       return (
         <div>
-          <h1>POSTS:</h1>
-          <ul>{posts}</ul>
+          <center><h1>POSTS</h1></center>
+          <ul className="posts">{posts}</ul>
         </div>
       )
     }
