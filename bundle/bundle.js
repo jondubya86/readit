@@ -72,7 +72,7 @@
 	
 	var _singlepost2 = _interopRequireDefault(_singlepost);
 	
-	var _allcomments = __webpack_require__(244);
+	var _allcomments = __webpack_require__(239);
 	
 	var _allcomments2 = _interopRequireDefault(_allcomments);
 	
@@ -37284,13 +37284,14 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _commentform = __webpack_require__(245);
+
+	var _commentform = __webpack_require__(238);
 	
 	var _commentform2 = _interopRequireDefault(_commentform);
 	
-	var _vote = __webpack_require__(246);
+	var _allcomments = __webpack_require__(239);
 	
-	var _vote2 = _interopRequireDefault(_vote);
+	var _allcomments2 = _interopRequireDefault(_allcomments);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -37318,6 +37319,7 @@
 	      );
 	    } else {
 	      var post = this.state.post;
+	      var id = this.props.params.id;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -37331,8 +37333,9 @@
 	          null,
 	          post.body
 	        ),
-	        _react2.default.createElement(_commentform2.default, null),
-	        _react2.default.createElement(_vote2.default, { id: this.props.params.id })
+
+	        _react2.default.createElement(_commentform2.default, { id: id }),
+	        _react2.default.createElement(_allcomments2.default, { id: id })
 	      );
 	    }
 	  }
@@ -37358,81 +37361,7 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _reactRouter = __webpack_require__(183);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var Allcomments = _react2.default.createClass({
-	  displayName: 'Allcomments',
-	  getInitialState: function getInitialState() {
-	    return { comments: null };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    var that = this;
-	    _jquery2.default.ajax({
-	      url: "/api/comment",
-	      success: function success(data) {
-	        that.setState({ comments: data });
-	      }
-	    });
-	  },
-	  render: function render() {
-	    if (!this.state.comments) {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'Loading...'
-	      );
-	    } else {
-	      var comments = this.state.comments.map(function (comment, idx) {
-	        return _react2.default.createElement(
-	          'li',
-	          { key: idx },
-	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/comment/' + comment.id },
-	            comment.title
-	          )
-	        );
-	      });
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'COMMENTS:'
-	        ),
-	        _react2.default.createElement(
-	          'ul',
-	          null,
-	          comments
-	        )
-	      );
-	    }
-	  }
-	});
-	
-	exports.default = Allcomments;
 
-/***/ },
-/* 245 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(241);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Commentform = _react2.default.createClass({
@@ -37445,9 +37374,10 @@
 	  },
 	  handleSubmit: function handleSubmit() {
 	    var data = this.state;
+	    var id = this.props.id;
 	    _jquery2.default.ajax({
 	      //must contain the current post's id
-	      url: "/api/comment/:id",
+	      url: "/api/comment/" + id,
 	      type: "POST",
 	      data: data
 	    });
@@ -37468,7 +37398,7 @@
 	exports.default = Commentform;
 
 /***/ },
-/* 246 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37481,94 +37411,66 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _jquery = __webpack_require__(241);
+	var _jquery = __webpack_require__(235);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Vote = _react2.default.createClass({
-	  displayName: 'Vote',
+	var Allcomments = _react2.default.createClass({
+	  displayName: 'Allcomments',
 	  getInitialState: function getInitialState() {
-	    return { upvote: null, downvote: null, vote: null };
+	    return { comments: null };
 	  },
 	  componentDidMount: function componentDidMount() {
 	    var that = this;
+	    var id = this.props.id;
 	    _jquery2.default.ajax({
-	      url: "/api/vote/" + that.props.id,
-	      type: "GET",
+	      //This Ajax call will be using the params retrieved from the post url to get all comments related to the post`
+	      url: "/api/comment/" + id,
 	      success: function success(data) {
-	        var upvote = [];
-	        var downvote = [];
-	        data.map(function (a) {
-	          if (a.vote == 1) {
-	            upvote.push(a.vote);
-	            console.log(a.vote);
-	          } else {
-	            downvote.push(a.vote);
-	          }
-	        });
-	        that.setState({ upvote: upvote.length, downvote: downvote.length });
-	      }
-	    });
-	  },
-	  upVote: function upVote() {
-	    _jquery2.default.ajax({
-	      url: "/api/vote/",
-	      type: "POST",
-	      data: { vote: 1 },
-	      success: function success(data) {
-	        console.log(data, 'upvote posted!');
-	      }
-	    });
-	  },
-	  downVote: function downVote() {
-	    _jquery2.default.ajax({
-	      url: "/api/vote/",
-	      type: "POST",
-	      data: { vote: -1 },
-	      success: function success(data) {
-	        console.log(data, 'downvote posted!');
+	        that.setState({ comments: data });
 	      }
 	    });
 	  },
 	  render: function render() {
-	    if (!this.state) {
+	    if (!this.state.comments) {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        'Loading...'
 	      );
 	    } else {
+	      var count = this.state.comments.count;
+	      var comments = this.state.comments.rows.map(function (comment, idx) {
+	        return _react2.default.createElement(
+	          'li',
+	          { key: idx },
+	          comment.comment
+	        );
+	      });
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.upVote },
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'Upvote: ',
-	            this.state.upvote
-	          )
+	          'h1',
+	          null,
+	          'Top ',
+	          count,
+	          ' comment(s):'
 	        ),
+	        _react2.default.createElement('hr', null),
 	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.downVote },
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'Downvote: ',
-	            this.state.downvote
-	          )
+	          'ul',
+	          null,
+	          comments
 	        )
 	      );
 	    }
 	  }
 	});
 	
-	exports.default = Vote;
+	exports.default = Allcomments;
 
 /***/ }
 /******/ ]);

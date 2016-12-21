@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import {Link} from 'react-router';
 
 const Allcomments = React.createClass({
   getInitialState() {
@@ -8,8 +7,10 @@ const Allcomments = React.createClass({
   },
   componentDidMount() {
     let that = this;
+    let id = this.props.id
     $.ajax({
-      url: "/api/comment",
+      //This Ajax call will be using the params retrieved from the post url to get all comments related to the post`
+      url: "/api/comment/" + id,
       success: function(data) {
         that.setState({comments: data})
       }
@@ -19,13 +20,15 @@ const Allcomments = React.createClass({
     if(!this.state.comments) {
       return (<div>Loading...</div>)
     } else {
-      let comments = this.state.comments.map((comment, idx) => (
-           <li key={idx}><Link to={'/comment/'+comment.id}>{comment.title}</Link></li>
+      let count = this.state.comments.count
+      let comments = this.state.comments.rows.map((comment, idx) => (
+           <li key={idx}>{comment.comment}</li>
          )
       )
       return (
         <div>
-          <h1>COMMENTS:</h1>
+          <h1>Top {count} comment(s):</h1>
+          <hr />
           <ul>{comments}</ul>
         </div>
       )

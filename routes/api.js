@@ -50,10 +50,15 @@ router.route('/api/post/:id')
 
 
 //ROUTES USED TO HANDLE THE COMMENT MODEL
-router.route('/api/comment')
-//gets all comments
+router.route('/api/comment/:id')
+//gets all comments associated with a particular post
 .get((req, res) => {
-  Comment.findAll()
+  let id = req.params.id;
+  Comment.findAndCountAll({
+    where: {
+      PostId: id
+    }
+  })
   .then((comments) => {
     res.send(comments)
   })
@@ -61,8 +66,8 @@ router.route('/api/comment')
 
 //creates a comment
 .post((req, res) => {
-  var comment = req.body.comment;
-  var postId = req.body.postId;
+  let comment = req.body.comment;
+  let postId = req.params.id;
     Comment.create({
       comment: comment
     })
@@ -72,13 +77,12 @@ router.route('/api/comment')
   })
 })
 
+
 router.route('/api/comment/:id')
 //gets single comment
 .get((req, res) => {
   var id = req.params.id;
-  Comment.findById({
-    id: id
-  })
+  Comment.findById(id)
   .then((comment) => {
     res.send(comment)
   })
