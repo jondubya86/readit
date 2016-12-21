@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import {Link} from 'react-router';
+import Vote from '../vote/vote';
 
 const Allposts = React.createClass({
   getInitialState() {
@@ -23,7 +24,7 @@ const Allposts = React.createClass({
       return (<div>Loading...</div>)
     } else {
       let posts = this.state.posts.map((post, idx) => (
-           <li key={idx}><Link to={'/post/'+post.id}>{post.title}</Link></li>
+           <li key={idx}><Link to={'/post/'+post.id}>{post.title}</Link><Vote id={post.id}/></li>
          )
       )
       return (

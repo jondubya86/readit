@@ -72,7 +72,7 @@
 	
 	var _singlepost2 = _interopRequireDefault(_singlepost);
 	
-	var _allcomments = __webpack_require__(244);
+	var _allcomments = __webpack_require__(246);
 	
 	var _allcomments2 = _interopRequireDefault(_allcomments);
 	
@@ -37203,6 +37203,10 @@
 	
 	var _reactRouter = __webpack_require__(183);
 	
+	var _vote = __webpack_require__(245);
+	
+	var _vote2 = _interopRequireDefault(_vote);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Allposts = _react2.default.createClass({
@@ -37239,7 +37243,8 @@
 	            _reactRouter.Link,
 	            { to: '/post/' + post.id },
 	            post.title
-	          )
+	          ),
+	          _react2.default.createElement(_vote2.default, { id: post.id })
 	        );
 	      });
 	      return _react2.default.createElement(
@@ -37284,11 +37289,11 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _commentform = __webpack_require__(245);
+	var _commentform = __webpack_require__(244);
 	
 	var _commentform2 = _interopRequireDefault(_commentform);
 	
-	var _vote = __webpack_require__(246);
+	var _vote = __webpack_require__(245);
 	
 	var _vote2 = _interopRequireDefault(_vote);
 	
@@ -37342,6 +37347,161 @@
 
 /***/ },
 /* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(241);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Commentform = _react2.default.createClass({
+	  displayName: 'Commentform',
+	  getInitialState: function getInitialState() {
+	    return { comment: null };
+	  },
+	  handleChange: function handleChange(e) {
+	    this.setState({ comment: e.target.value });
+	  },
+	  handleSubmit: function handleSubmit() {
+	    var data = this.state;
+	    _jquery2.default.ajax({
+	      //must contain the current post's id
+	      url: "/api/comment/:id",
+	      type: "POST",
+	      data: data
+	    });
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'form',
+	      { onSubmit: this.handleSubmit },
+	      _react2.default.createElement('label', { htmlFor: 'comment' }),
+	      _react2.default.createElement('input', { type: 'text', name: 'comment', id: 'comment', placeholder: 'Comment', onChange: this.handleChange }),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement('input', { type: 'reset', value: 'Reset', id: 'reset' }),
+	      _react2.default.createElement('input', { type: 'submit', value: 'Submit', id: 'submit' })
+	    );
+	  }
+	});
+	
+	exports.default = Commentform;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(241);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Vote = _react2.default.createClass({
+	  displayName: 'Vote',
+	  getInitialState: function getInitialState() {
+	    return { upvote: null, downvote: null, vote: null };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    var that = this;
+	    _jquery2.default.ajax({
+	      url: "/api/vote/" + that.props.id,
+	      type: "GET",
+	      success: function success(data) {
+	        var upvote = [];
+	        var downvote = [];
+	        data.map(function (a) {
+	          if (a.vote == 1) {
+	            upvote.push(a.vote);
+	            console.log(a.vote);
+	          } else {
+	            downvote.push(a.vote);
+	          }
+	        });
+	        that.setState({ upvote: upvote.length, downvote: downvote.length });
+	      }
+	    });
+	  },
+	  upVote: function upVote() {
+	    _jquery2.default.ajax({
+	      url: "/api/vote/",
+	      type: "POST",
+	      data: { vote: 1, postId: this.props.id },
+	      success: function success(data) {
+	        console.log('upvote posted!');
+	      }
+	    });
+	  },
+	  downVote: function downVote() {
+	    _jquery2.default.ajax({
+	      url: "/api/vote/",
+	      type: "POST",
+	      data: { vote: -1, postId: this.props.id },
+	      success: function success(data) {
+	        console.log('downvote posted!');
+	      }
+	    });
+	  },
+	  render: function render() {
+	    if (!this.state) {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'Loading...'
+	      );
+	    } else {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.upVote },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Upvote: ',
+	            this.state.upvote
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.downVote },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Downvote: ',
+	            this.state.downvote
+	          )
+	        )
+	      );
+	    }
+	  }
+	});
+	
+	exports.default = Vote;
+
+/***/ },
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37414,161 +37574,6 @@
 	});
 	
 	exports.default = Allcomments;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(241);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var Commentform = _react2.default.createClass({
-	  displayName: 'Commentform',
-	  getInitialState: function getInitialState() {
-	    return { comment: null };
-	  },
-	  handleChange: function handleChange(e) {
-	    this.setState({ comment: e.target.value });
-	  },
-	  handleSubmit: function handleSubmit() {
-	    var data = this.state;
-	    _jquery2.default.ajax({
-	      //must contain the current post's id
-	      url: "/api/comment/:id",
-	      type: "POST",
-	      data: data
-	    });
-	  },
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'form',
-	      { onSubmit: this.handleSubmit },
-	      _react2.default.createElement('label', { htmlFor: 'comment' }),
-	      _react2.default.createElement('input', { type: 'text', name: 'comment', id: 'comment', placeholder: 'Comment', onChange: this.handleChange }),
-	      _react2.default.createElement('br', null),
-	      _react2.default.createElement('input', { type: 'reset', value: 'Reset', id: 'reset' }),
-	      _react2.default.createElement('input', { type: 'submit', value: 'Submit', id: 'submit' })
-	    );
-	  }
-	});
-	
-	exports.default = Commentform;
-
-/***/ },
-/* 246 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(241);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var Vote = _react2.default.createClass({
-	  displayName: 'Vote',
-	  getInitialState: function getInitialState() {
-	    return { upvote: null, downvote: null, vote: null };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    var that = this;
-	    _jquery2.default.ajax({
-	      url: "/api/vote/" + that.props.id,
-	      type: "GET",
-	      success: function success(data) {
-	        var upvote = [];
-	        var downvote = [];
-	        data.map(function (a) {
-	          if (a.vote == 1) {
-	            upvote.push(a.vote);
-	            console.log(a.vote);
-	          } else {
-	            downvote.push(a.vote);
-	          }
-	        });
-	        that.setState({ upvote: upvote.length, downvote: downvote.length });
-	      }
-	    });
-	  },
-	  upVote: function upVote() {
-	    _jquery2.default.ajax({
-	      url: "/api/vote/",
-	      type: "POST",
-	      data: { vote: 1 },
-	      success: function success(data) {
-	        console.log(data, 'upvote posted!');
-	      }
-	    });
-	  },
-	  downVote: function downVote() {
-	    _jquery2.default.ajax({
-	      url: "/api/vote/",
-	      type: "POST",
-	      data: { vote: -1 },
-	      success: function success(data) {
-	        console.log(data, 'downvote posted!');
-	      }
-	    });
-	  },
-	  render: function render() {
-	    if (!this.state) {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'Loading...'
-	      );
-	    } else {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.upVote },
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'Upvote: ',
-	            this.state.upvote
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.downVote },
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'Downvote: ',
-	            this.state.downvote
-	          )
-	        )
-	      );
-	    }
-	  }
-	});
-	
-	exports.default = Vote;
 
 /***/ }
 /******/ ]);

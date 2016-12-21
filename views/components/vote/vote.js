@@ -29,9 +29,9 @@ const Vote = React.createClass({
     $.ajax({
       url: "/api/vote/",
       type: "POST",
-      data: {vote:1},
+      data: {vote:1, postId: this.props.id},
       success:function(data){
-        console.log(data,'upvote posted!')
+        console.log('upvote posted!')
       }
     })
   },
@@ -39,9 +39,9 @@ const Vote = React.createClass({
     $.ajax({
       url: "/api/vote/",
       type: "POST",
-      data: {vote:-1},
+      data: {vote:-1, postId: this.props.id},
       success:function(data){
-        console.log(data, 'downvote posted!')
+        console.log('downvote posted!')
       }
     })
   },

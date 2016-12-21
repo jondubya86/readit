@@ -11,13 +11,13 @@
     "password": null,
     "database": "readit",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
     "username": "jondubya",
     "password": null,
     "database": "readit",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   }
 }
