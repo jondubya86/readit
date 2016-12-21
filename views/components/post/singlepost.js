@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import Commentform from '../comment/commentform';
 
 const Singlepost = React.createClass({
   getInitialState() {
@@ -23,6 +24,7 @@ const Singlepost = React.createClass({
         <div>
           <h1>{post.title}</h1>
           <div>{post.body}</div>
+          <Commentform />
         </div>
       )
     }

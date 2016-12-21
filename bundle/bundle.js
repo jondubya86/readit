@@ -36899,6 +36899,10 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
+	var _commentform = __webpack_require__(239);
+	
+	var _commentform2 = _interopRequireDefault(_commentform);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Singlepost = _react2.default.createClass({
@@ -36936,7 +36940,8 @@
 	          'div',
 	          null,
 	          post.body
-	        )
+	        ),
+	        _react2.default.createElement(_commentform2.default, null)
 	      );
 	    }
 	  }
@@ -37018,6 +37023,58 @@
 	});
 	
 	exports.default = Allcomments;
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(235);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Commentform = _react2.default.createClass({
+	  displayName: 'Commentform',
+	  getInitialState: function getInitialState() {
+	    return { comment: null };
+	  },
+	  handleChange: function handleChange(e) {
+	    this.setState({ comment: e.target.value });
+	  },
+	  handleSubmit: function handleSubmit() {
+	    var data = this.state;
+	    _jquery2.default.ajax({
+	      //must contain the current post's id
+	      url: "/api/comment/:id",
+	      type: "POST",
+	      data: data
+	    });
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'form',
+	      { onSubmit: this.handleSubmit },
+	      _react2.default.createElement('label', { htmlFor: 'comment' }),
+	      _react2.default.createElement('input', { type: 'text', name: 'comment', id: 'comment', placeholder: 'Comment', onChange: this.handleChange }),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement('input', { type: 'reset', value: 'Reset', id: 'reset' }),
+	      _react2.default.createElement('input', { type: 'submit', value: 'Submit', id: 'submit' })
+	    );
+	  }
+	});
+	
+	exports.default = Commentform;
 
 /***/ }
 /******/ ]);
