@@ -10,9 +10,10 @@ const Commentform = React.createClass({
   },
   handleSubmit() {
     let data = this.state
+    let id = this.props.id
     $.ajax({
       //must contain the current post's id
-      url: "/api/comment/:id",
+      url: "/api/comment/" + id,
       type: "POST",
       data: data
     })

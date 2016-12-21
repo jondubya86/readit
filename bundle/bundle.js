@@ -72,7 +72,7 @@
 	
 	var _singlepost2 = _interopRequireDefault(_singlepost);
 	
-	var _allcomments = __webpack_require__(238);
+	var _allcomments = __webpack_require__(239);
 	
 	var _allcomments2 = _interopRequireDefault(_allcomments);
 	
@@ -36899,9 +36899,13 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _commentform = __webpack_require__(239);
+	var _commentform = __webpack_require__(238);
 	
 	var _commentform2 = _interopRequireDefault(_commentform);
+	
+	var _allcomments = __webpack_require__(239);
+	
+	var _allcomments2 = _interopRequireDefault(_allcomments);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -36928,6 +36932,7 @@
 	      );
 	    } else {
 	      var post = this.state.post;
+	      var id = this.props.params.id;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -36941,7 +36946,8 @@
 	          null,
 	          post.body
 	        ),
-	        _react2.default.createElement(_commentform2.default, null)
+	        _react2.default.createElement(_commentform2.default, { id: id }),
+	        _react2.default.createElement(_allcomments2.default, { id: id })
 	      );
 	    }
 	  }
@@ -36951,81 +36957,6 @@
 
 /***/ },
 /* 238 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(235);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	var _reactRouter = __webpack_require__(178);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var Allcomments = _react2.default.createClass({
-	  displayName: 'Allcomments',
-	  getInitialState: function getInitialState() {
-	    return { comments: null };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    var that = this;
-	    _jquery2.default.ajax({
-	      url: "/api/comment",
-	      success: function success(data) {
-	        that.setState({ comments: data });
-	      }
-	    });
-	  },
-	  render: function render() {
-	    if (!this.state.comments) {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'Loading...'
-	      );
-	    } else {
-	      var comments = this.state.comments.map(function (comment, idx) {
-	        return _react2.default.createElement(
-	          'li',
-	          { key: idx },
-	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/comment/' + comment.id },
-	            comment.title
-	          )
-	        );
-	      });
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'COMMENTS:'
-	        ),
-	        _react2.default.createElement(
-	          'ul',
-	          null,
-	          comments
-	        )
-	      );
-	    }
-	  }
-	});
-	
-	exports.default = Allcomments;
-
-/***/ },
-/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37054,9 +36985,10 @@
 	  },
 	  handleSubmit: function handleSubmit() {
 	    var data = this.state;
+	    var id = this.props.id;
 	    _jquery2.default.ajax({
 	      //must contain the current post's id
-	      url: "/api/comment/:id",
+	      url: "/api/comment/" + id,
 	      type: "POST",
 	      data: data
 	    });
@@ -37075,6 +37007,81 @@
 	});
 	
 	exports.default = Commentform;
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(235);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Allcomments = _react2.default.createClass({
+	  displayName: 'Allcomments',
+	  getInitialState: function getInitialState() {
+	    return { comments: null };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    var that = this;
+	    var id = this.props.id;
+	    _jquery2.default.ajax({
+	      //This Ajax call will be using the params retrieved from the post url to get all comments related to the post`
+	      url: "/api/comment/" + id,
+	      success: function success(data) {
+	        that.setState({ comments: data });
+	      }
+	    });
+	  },
+	  render: function render() {
+	    if (!this.state.comments) {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'Loading...'
+	      );
+	    } else {
+	      var count = this.state.comments.count;
+	      var comments = this.state.comments.rows.map(function (comment, idx) {
+	        return _react2.default.createElement(
+	          'li',
+	          { key: idx },
+	          comment.comment
+	        );
+	      });
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Top ',
+	          count,
+	          ' comment(s):'
+	        ),
+	        _react2.default.createElement('hr', null),
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          comments
+	        )
+	      );
+	    }
+	  }
+	});
+	
+	exports.default = Allcomments;
 
 /***/ }
 /******/ ]);

@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import Commentform from '../comment/commentform';
+import Allcomments from '../comment/allcomments';
 
 const Singlepost = React.createClass({
   getInitialState() {
@@ -20,11 +21,13 @@ const Singlepost = React.createClass({
       return (<div>Loading...</div>)
     } else {
       let post = this.state.post
+      let id = this.props.params.id
       return (
         <div>
           <h1>{post.title}</h1>
           <div>{post.body}</div>
-          <Commentform />
+          <Commentform id={id} />
+          <Allcomments id={id} />
         </div>
       )
     }
