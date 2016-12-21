@@ -17,7 +17,7 @@ router.route('/api/post')
 
 //creates a post
 .post((req, res) => {
-  let data = req.body;
+  var data = req.body;
   Post.create({
     title: data.title,
     body: data.body
@@ -30,7 +30,7 @@ router.route('/api/post')
 router.route('/api/post/:id')
 //gets single posts
 .get((req, res) => {
-  let id = req.params.id;
+  var id = req.params.id;
   Post.findById(id)
   .then((post) => {
     res.send(post)
@@ -39,7 +39,7 @@ router.route('/api/post/:id')
 
 //deletes a post
 .delete((req, res) => {
-  let id = req.params.id;
+  var id = req.params.id;
   Post.destroy({
     where: {id: id}
   })
@@ -61,8 +61,8 @@ router.route('/api/comment')
 
 //creates a comment
 .post((req, res) => {
-  let comment = req.body.comment;
-  let postId = req.body.postId;
+  var comment = req.body.comment;
+  var postId = req.body.postId;
     Comment.create({
       comment: comment
     })
@@ -75,7 +75,7 @@ router.route('/api/comment')
 router.route('/api/comment/:id')
 //gets single comment
 .get((req, res) => {
-  let id = req.params.id;
+  var id = req.params.id;
   Comment.findById({
     id: id
   })
@@ -86,7 +86,7 @@ router.route('/api/comment/:id')
 
 //deletes a comment
 .delete((req, res) => {
-  let id = req.params.id;
+  var id = req.params.id;
   Comment.destroy({
     where: {id: id}
   })
@@ -107,8 +107,8 @@ router.route('/api/vote')
 
 //creates a vote
 .post((req, res) => {
-  let vote = req.body.vote;
-  let postId = req.body.postId;
+  var vote = req.body.vote;
+  var postId = req.body.postId;
   Vote.create({
     vote: vote,
   })
@@ -121,9 +121,11 @@ router.route('/api/vote')
 router.route('/api/vote/:id')
 //gets single vote
 .get((req, res) => {
-  let id = req.params.id;
-  Vote.findById({
-    id: id
+  var id = req.params.id;
+  Vote.findAll({
+    where: {
+      PostId: id
+    }
   })
   .then((vote) => {
     res.send(vote)
@@ -132,7 +134,7 @@ router.route('/api/vote/:id')
 
 //deletes a vote
 .delete((req, res) => {
-  let id = req.params.id;
+  var id = req.params.id;
   Vote.destroy({
     where: {id: id}
   })
