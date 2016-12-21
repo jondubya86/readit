@@ -1,7 +1,9 @@
 import React from 'react';
 import $ from 'jquery';
 import Commentform from '../comment/commentform';
+import Vote from '../vote/vote';
 import Allcomments from '../comment/allcomments';
+
 
 const Singlepost = React.createClass({
   getInitialState() {
@@ -13,6 +15,7 @@ const Singlepost = React.createClass({
       url: "/api/post/" + that.props.params.id,
       success: function(data) {
         that.setState({post:data})
+        console.log(data)
       }
     })
   },
@@ -26,6 +29,7 @@ const Singlepost = React.createClass({
         <div>
           <h1>{post.title}</h1>
           <div>{post.body}</div>
+          <Vote id={this.props.params.id}/>
           <Commentform id={id} />
           <Allcomments id={id} />
         </div>
