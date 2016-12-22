@@ -34,6 +34,7 @@ const Vote = React.createClass({
         console.log('upvote posted!')
       }
     })
+    .done(()=>this.setState({upvote:this.state.upvote+1}))
   },
   downVote(){
     $.ajax({
@@ -44,6 +45,7 @@ const Vote = React.createClass({
         console.log('downvote posted!')
       }
     })
+    .done(()=>this.setState({downvote:this.state.downvote-1}))
   },
   render() {
     if(!this.state) {

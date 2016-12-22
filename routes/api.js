@@ -53,7 +53,7 @@ router.route('/api/post/:id')
 router.route('/api/comment/:id')
 //gets all comments associated with a particular post
 .get((req, res) => {
-  let id = req.params.id;
+  var id = req.params.id;
   Comment.findAndCountAll({
     where: {
       PostId: id
@@ -66,8 +66,8 @@ router.route('/api/comment/:id')
 
 //creates a comment
 .post((req, res) => {
-  let comment = req.body.comment;
-  let postId = req.params.id;
+  var comment = req.body.comment;
+  var postId = req.params.id;
     Comment.create({
       comment: comment
     })
