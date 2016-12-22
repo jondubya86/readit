@@ -37238,7 +37238,7 @@
 	      var posts = this.state.posts.map(function (post, idx) {
 	        return _react2.default.createElement(
 	          'li',
-	          { key: idx },
+	          { id: 'allposts-post-div', key: idx },
 	          _react2.default.createElement(
 	            _reactRouter.Link,
 	            { to: '/post/' + post.id },
@@ -37307,12 +37307,11 @@
 	        data.map(function (a) {
 	          if (a.vote == 1) {
 	            upvote.push(a.vote);
-	            console.log(a.vote);
 	          } else {
 	            downvote.push(a.vote);
 	          }
 	        });
-	        that.setState({ upvote: upvote.length, downvote: downvote.length });
+	        that.setState({ upvote: upvote.length, downvote: -Math.abs(downvote.length) });
 	      }
 	    });
 	  },
@@ -37322,10 +37321,7 @@
 	    _jquery2.default.ajax({
 	      url: "/api/vote/",
 	      type: "POST",
-	      data: { vote: 1, postId: this.props.id },
-	      success: function success(data) {
-	        console.log('upvote posted!');
-	      }
+	      data: { vote: 1, postId: this.props.id }
 	    }).done(function () {
 	      return _this.setState({ upvote: _this.state.upvote + 1 });
 	    });
@@ -37336,10 +37332,7 @@
 	    _jquery2.default.ajax({
 	      url: "/api/vote/",
 	      type: "POST",
-	      data: { vote: -1, postId: this.props.id },
-	      success: function success(data) {
-	        console.log('downvote posted!');
-	      }
+	      data: { vote: -1, postId: this.props.id }
 	    }).done(function () {
 	      return _this2.setState({ downvote: _this2.state.downvote - 1 });
 	    });
@@ -37357,21 +37350,19 @@
 	        null,
 	        _react2.default.createElement(
 	          'button',
-	          { onClick: this.upVote },
+	          { id: 'upvote-btn', onClick: this.upVote },
 	          _react2.default.createElement(
-	            'h1',
+	            'h3',
 	            null,
-	            'Upvote: ',
 	            this.state.upvote
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { onClick: this.downVote },
+	          { id: 'downvote-btn', onClick: this.downVote },
 	          _react2.default.createElement(
-	            'h1',
+	            'h3',
 	            null,
-	            'Downvote: ',
 	            this.state.downvote
 	          )
 	        )

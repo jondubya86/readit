@@ -16,12 +16,11 @@ const Vote = React.createClass({
         data.map((a)=>{
           if(a.vote==1){
             upvote.push(a.vote)
-            console.log(a.vote)
           }else{
             downvote.push(a.vote)
           }
         })
-        that.setState({upvote:upvote.length, downvote: downvote.length})
+        that.setState({upvote:upvote.length, downvote: -Math.abs(downvote.length)})
       }
     })
   },
@@ -29,23 +28,15 @@ const Vote = React.createClass({
     $.ajax({
       url: "/api/vote/",
       type: "POST",
-      data: {vote:1, postId: this.props.id},
-      success:function(data){
-        console.log('upvote posted!')
-      }
-    })
-    .done(()=>this.setState({upvote:this.state.upvote+1}))
+      data: {vote:1, postId: this.props.id}
+      }).done(()=>this.setState({upvote:this.state.upvote+1}))
   },
   downVote(){
     $.ajax({
       url: "/api/vote/",
       type: "POST",
-      data: {vote:-1, postId: this.props.id},
-      success:function(data){
-        console.log('downvote posted!')
-      }
-    })
-    .done(()=>this.setState({downvote:this.state.downvote-1}))
+      data: {vote:-1, postId: this.props.id}
+    }).done(()=>this.setState({downvote:this.state.downvote-1}))
   },
   render() {
     if(!this.state) {
@@ -53,8 +44,8 @@ const Vote = React.createClass({
     } else {
       return (
         <div>
-        <button onClick={this.upVote}><h1>Upvote: {this.state.upvote}</h1></button>
-        <button onClick={this.downVote}><h1>Downvote: {this.state.downvote}</h1></button>
+        <button id='upvote-btn' onClick={this.upVote}><h3>{this.state.upvote}</h3></button>
+        <button id='downvote-btn' onClick={this.downVote}><h3>{this.state.downvote}</h3></button>
         </div>
       )
     }

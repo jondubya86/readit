@@ -55,3 +55,46 @@ a:link {
   list-style: none;
   padding: 10px;
 }
+
+
+/*vote component*/
+#upvote-btn {
+  background-image: url(/pics/up-32.png);
+  background-position: center center;
+  background-color: #06ce34;
+  background-repeat: no-repeat; 
+  width: 100px;
+}
+
+#upvote-btn:hover{
+  background-color: #07ff41;
+  transition: 0.5s;
+  transform: scale(1.015);
+}
+
+#downvote-btn {
+  background-image: url(/pics/down-32.png); 
+  background-position: center center;
+  background-color: #e20f0f; 
+  background-repeat: no-repeat;
+  width: 100px;
+  transition: 0.4s;
+}
+
+#downvote-btn:hover {
+  background-color: #ff3030;
+  transition: 0.5s;
+  transform: scale(1.015);
+}
+
+/*allpost's component homepage*/
+#allposts-post-div{
+  border:.25px solid gray;
+  border-radius:5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  width: 1000px;
+  height: 100px;
+}
+
+
